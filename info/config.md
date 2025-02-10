@@ -91,4 +91,14 @@ On acceptance and merge of the PR, changes are deployed to the __ThoughtSpot__ O
 - In __API ENDPOINT__ section, select version control where we need to create a config file.
 - Create a config for __Thoughtspot__ to login to __Github REPO__ where you want to do version control of __TS__ Objects.
 - Provide the [__Parameters__](https://developers.thoughtspot.com/docs/git-configuration#_request_parameters)
-- To get repository configuration information, select [__Search__ ](https://developers.thoughtspot.com/docs/git-configuration#_search_git_configuration)API 
+- To get repository configuration information, select [__Search__ ](https://developers.thoughtspot.com/docs/git-configuration#_search_git_configuration)API
+
+
+
+## How should I set up my Github Action?
+- First thing First workflow should be placed in main branch.
+- Setup the [__Secret__](https://docs.github.com/en/actions/security-for-github-actions/security-guides/using-secrets-in-github-actions#creating-secrets-for-a-repository) for your Repo.
+- Secret that you need to configure
+1. DEV_THOUGHTSPOT_URL -> Your Dev Org URL
+2. DEV_THOUGHTSPOT_USERNAME -> Admin Username of cluster
+3. DEV_THOUGHTSPOT_SECRET_KEY -> Admin Password
