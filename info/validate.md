@@ -1,14 +1,28 @@
-### Validating the objects between two environment
-## There are two types of validation we can do 
+### Pull Request Validation: Ensuring Compatibility Before Merging
 
-1. **Between the Github Branches**
+To maintain consistency and avoid conflicts when merging changes, we enforce validation tests between environments. If these tests fail, **the pull request should not be merged**.
 
-- Before moving the objects between two branches we should test the compability between these two environment
-- for that we will use [__validate_API__](https://developers.thoughtspot.com/docs/git-api#_validate_merge).
-- In our workflow we can validate between two branches through [__validate_git_merge__](.github/workflows/validate_git_merge.yml).
-- After validating the merge, check for conflicts. Resolve issues if any with a new commit and merge your changes to the ts-prod branch.
+## Validation Types
 
-2. **Between the Orgs**
-- We can runs validation to detect if your destination environment can import the changes without conflicts.
-- Use this when the TML content is modified between source and destination environments and if you do not want the TML content in your destination branch to be modified after a pull request from your dev branch.
-- In our workflow we can validate between two branches through [__validate_ts_content__](.github/workflows/validate_ts_content.yml).
+### 1. **Validation Between GitHub Branches**
+
+Before merging changes between branches, we must ensure compatibility between the environments. This prevents potential failures in downstream deployments.
+
+- We achieve this using the [__validate_API__](https://developers.thoughtspot.com/docs/git-api#_validate_merge).
+- Our workflow automates this validation through [__validate_git_merge__](.github/workflows/validate_git_merge.yml).
+- If the validation fails, **the pull request should be blocked**.
+- If conflicts are detected, resolve them with a new commit before attempting the merge again.
+
+### 2. **Validation Between Organizations (Orgs)**
+
+When modifying TML content, we must ensure that the destination environment can import the changes without issues.
+
+- This prevents unintended modifications in the target environment after merging changes from the development branch.
+- Our workflow runs validation using [__validate_ts_content__](.github/workflows/validate_ts_content.yml).
+- If the validation fails, the pull request **must not be merged** until the conflicts are resolved.
+
+### Enforcement
+
+- **All PRs must pass these validation tests before merging.**
+- If any test fails, the PR should remain open until the issues are fixed.
+- This ensures smooth deployments and consistency across environments.
