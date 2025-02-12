@@ -26,3 +26,12 @@ When modifying TML content, we must ensure that the destination environment can 
 - **All PRs must pass these validation tests before merging.**
 - If any test fails, the PR should remain open until the issues are fixed.
 - This ensures smooth deployments and consistency across environments.
+
+## Validate Manually 
+
+<center>
+      <figure>
+          <img src="workflow_validate.png" alt="run-validate" width="500" />
+          <figcaption><i>Manually trigger the Validate between Orgs</i></figcaption>
+      </figure>
+</center>
