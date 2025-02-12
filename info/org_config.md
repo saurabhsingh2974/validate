@@ -1,14 +1,20 @@
-## Creating Config in TS
-- Best Pratice to create config for version Control is to create it through [__V2 API__](https://developers.thoughtspot.com/docs/git-configuration#_request_parameters)
-- In config we got option like
+### Creating a Configuration in ThoughtSpot
+## To ensure best practices in version control, it is recommended to create the configuration using the V2 API.
 
-  - repository_url -> https://github.com/thoughtspot/ts-ci-github
-  - username -> user with admin priviledge
-  - access_token -> Token provided by github so TS can access 
-  - branch_names -> Ex. Branch name for which we are creating this Config 
-  - enable_guid_mapping -> True by default
-  - configuration_branch_name -> create a separate config branch with name ts-config
+- Configuration Parameters
+- When setting up the configuration, the following parameters must be defined:
 
-- TRY IT OUT and you will get success message
-- You can check the Config the you created using the [__Search Config__]
-- Repeat the same steps for other Org
+  - repository_url → The URL of the GitHub repository (e.g., https://github.com/thoughtspot/ts-ci-github).
+  - username → The username of an account with admin privileges.
+  - access_token → A GitHub-provided token that allows ThoughtSpot to access the repository.
+  - branch_names → The branch for which the configuration is being created.
+  - enable_guid_mapping → Set to true by default.
+  - configuration_branch_name → A separate configuration branch (recommended name: ts-config).
+
+## Steps to Create the Configuration
+- Use the V2 API to send a request with the above parameters.
+- Upon successful execution, a success message will be displayed.
+- Verify the newly created configuration using the [Search Config API].
+- Repeat the process for any additional organizations that require configuration.
+
+## By following these steps, you ensure a standardized and structured approach to version control configuration in ThoughtSpot.
