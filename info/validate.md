@@ -27,7 +27,10 @@ When modifying TML content, we must ensure that the destination environment can 
 - If any test fails, the PR should remain open until the issues are fixed.
 - This ensures smooth deployments and consistency across environments.
 
-## Validate Manually 
+## Validate Manually
+
+1. Ensure your [__Validate Workflow Files__] has been configured with the correct environment variables.
+2. Then, [__visit the workflow__] and click the `Run Workflow` button.
 
 <center>
       <figure>
