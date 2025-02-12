@@ -1,6 +1,6 @@
 ### Deployment Process: Moving Objects from Dev to Prod
 
-## Once a pull request (PR) is successfully merged, the following steps ensure a smooth deployment:
+## Once the object commited to ts-dev branch, then following steps ensure a smooth deployment:
 
 - After an object moves to the ts-dev branch in GitHub, create a Pull Request to move it to the ts-prod branch.
 
@@ -8,7 +8,7 @@
 
 - During the review process, a [__Validate Test__](info/validate.md) will run to ensure the TML content in the target environment can be imported without conflicts.
 
-- If the test passes, the changes will be merged into the ts-prod branch.
+- If the validate test passes, the changes will be merged into the ts-prod branch.
 
 - Merging triggers the [__Deploy Workflow__](.github/workflows/deploy.yml), which picks the latest object from the PR and imports it into the production environment.
 
