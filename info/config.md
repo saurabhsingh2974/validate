@@ -87,7 +87,7 @@ On acceptance and merge of the PR, changes are deployed to the __ThoughtSpot__ O
 ## How should I set up my ThoughtSpot?
 
 - Go to Develop tab of Org for which you want to create __Config__
-- In __Rest API__ Section, select [ __REST Playground v1__ ](https://try-everywhere.thoughtspot.cloud/v2/#/everywhere/api/rest/playgroundV2_0)
+- In __Rest API__ Section, select [ __REST Playground v2__ ](https://developers.thoughtspot.com/docs/git-configuration)
 - In __API ENDPOINT__ section, select version control where we need to create a config file.
 - Create a config for __Thoughtspot__ to login to __Github REPO__ where you want to do version control of __TS__ Objects.
 - Provide the [__Parameters__](https://developers.thoughtspot.com/docs/git-configuration#_request_parameters)
@@ -96,9 +96,41 @@ On acceptance and merge of the PR, changes are deployed to the __ThoughtSpot__ O
 
 
 ## How should I set up my Github Action?
-- First thing First workflow should be placed in main branch.
-- Setup the [__Secret__](https://docs.github.com/en/actions/security-for-github-actions/security-guides/using-secrets-in-github-actions#creating-secrets-for-a-repository) for your Repo.
-- Secret that you need to configure
-1. DEV_THOUGHTSPOT_URL -> Your Dev Org URL
-2. DEV_THOUGHTSPOT_USERNAME -> Admin Username of cluster
-3. DEV_THOUGHTSPOT_SECRET_KEY -> Admin Password
+## To securely store credentials and configuration values required for GitHub Actions, follow these steps:
+
+[__Step 1__]:
+- Ensure the Workflow is in the Main Branch
+
+- Before setting up secrets, confirm that your workflow files are located in the main branch of your repository.
+
+[__Step 2__]: 
+- Navigate to GitHub Secrets
+
+- Go to your repository on GitHub.
+
+- Click on Settings.
+
+- In the left sidebar, click Secrets and variables > Actions.
+
+- Click New repository secret.
+
+[__Step 3__]: 
+
+- Add Required Secrets
+  
+- Create the following secrets one by one:
+
+- Secret Name: DEV_THOUGHTSPOT_URL , Value: Your Dev Org URL
+
+- Secret Name: DEV_THOUGHTSPOT_USERNAME , Value: Admin Username of the cluster
+
+- Secret Name: DEV_THOUGHTSPOT_SECRET_KEY , Value: Admin Password
+
+[__Step 4__]: 
+- Verify and Use Secrets in Workflows
+
+- After adding secrets, they can be accessed within GitHub Actions using ${{ secrets.SECRET_NAME }}.
+
+- Ensure your workflows correctly reference these secrets for authentication and deployment.
+
+
