@@ -26,6 +26,9 @@
 
 - Secret Name: DEV_THOUGHTSPOT_USERNAME , Value: Admin Username of the cluster
 
+> [!WARNING]
+> Either Use DEV_THOUGHTSPOT_SECRET_KEY or DEV_THOUGHTSPOT_PASSWORD
+
 - Secret Name: DEV_THOUGHTSPOT_SECRET_KEY , Value: Trusted Auth
 
 - Secret Name: DEV_THOUGHTSPOT_PASSWORD , Value: Admin Password
