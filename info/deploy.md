@@ -2,7 +2,7 @@
 
 ## Once the object commited to ts-dev branch, then following steps ensure a smooth deployment:
 
-- After an object moves to the ts-dev branch in GitHub, create a Pull Request to move it to the ts-prod branch.
+- After an object moves to the ts-dev branch in GitHub, create a [__Pull Request__](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests) to move it to the ts-prod branch.
 
 - Fill in the required details in the PR Template to get it reviewed by an admin.
 
