@@ -92,3 +92,6 @@ On acceptance and merge of the PR, changes are deployed to the __ThoughtSpot__ O
 - Create a config Option for __Thoughtspot__ to login to __Github REPO__ where you want to do version control of __TS__ Objects.
 - Provide the [__Parameters__](https://developers.thoughtspot.com/docs/git-configuration#_request_parameters)
 - To get repository configuration information, select [__Search__ ] Endpoint API
+
+> [!NOTE]
+> To Setup Github Secret, follow offical Github Documentation and these [__steps__](info/github_secrets.md)
