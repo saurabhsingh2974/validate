@@ -1,4 +1,4 @@
-name: Extract Metadata with CS Tools
+.name: Extract Metadata with CS Tools
 on:
   workflow_dispatch:
     inputs:
@@ -57,7 +57,7 @@ jobs:
       # BUILD SYNCER CONNECTION STRING
       - name: Set Snowflake connection string
         run: |
-          echo "DECLARATIVE_SYNCER_SYNTAX=account_name=${{ secrets.SNOWFLAKE_ACCOUNT }}&username=${{ secrets.SNOWFLAKE_USERNAME }}&secret=${{ secrets.SNOWFLAKE_PASSWORD }}&warehouse=${{ secrets.SNOWFLAKE_WAREHOUSE }}&role=${{ secrets.SNOWFLAKE_ROLE }}&database=${{ secrets.SNOWFLAKE_DATABASE }}&schema=${{ secrets.SNOWFLAKE_SCHEMA }}&authentication=key-pair&private_key_path=${{P8_KEY_PATH}}" >> $GITHUB_ENV
+          echo "DECLARATIVE_SYNCER_SYNTAX=account_name=${{ secrets.SNOWFLAKE_ACCOUNT }}&username=${{ secrets.SNOWFLAKE_USERNAME }}&secret=${{ secrets.SNOWFLAKE_PASSWORD }}&warehouse=${{ secrets.SNOWFLAKE_WAREHOUSE }}&role=${{ secrets.SNOWFLAKE_ROLE }}&database=${{ secrets.SNOWFLAKE_DATABASE }}&schema=${{ secrets.SNOWFLAKE_SCHEMA }}&authentication=key-pair&private_key_path=${{env.P8_KEY_PATH}}" >> $GITHUB_ENV
       
       # RUNS THE searchable metadata COMMAND
       - name: Refresh Metadata from ThoughtSpot
