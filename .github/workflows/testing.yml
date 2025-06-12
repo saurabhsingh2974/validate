@@ -24,6 +24,9 @@ jobs:
     
     steps:
       # SETUP PYTHON
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -41,9 +44,8 @@ jobs:
       - name: Install Snowflake dependencies
         run: python -m pip install "snowflake-sqlalchemy >= 1.6.1"
 
-
       - name: Set file path as environment variable
-        run: echo "TEST_FILE_PATH=validate/testing/tools_key.p8" >> $GITHUB_ENV
+        run: echo "TEST_FILE_PATH=$GITHUB_WORKSPACE/github/tools_key.p8" >> $GITHUB_ENV
 
       - name: Use the file path
         run: |
