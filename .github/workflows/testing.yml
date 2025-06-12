@@ -20,7 +20,7 @@ jobs:
       CS_TOOLS_THOUGHTSPOT__URL: ${{ secrets.THOUGHTSPOT_URL }}
       CS_TOOLS_THOUGHTSPOT__USERNAME: ${{ secrets.THOUGHTSPOT_USERNAME }}
       CS_TOOLS_THOUGHTSPOT__SECRET_KEY: ${{ secrets.THOUGHTSPOT_SECRET_KEY }}
-      P8_KEY_PATH: "github/tools_key.p8"
+      #P8_KEY_PATH: "github/tools_key.p8"
     
     steps:
       # SETUP PYTHON
@@ -44,26 +44,18 @@ jobs:
       - name: Install Snowflake dependencies
         run: python -m pip install "snowflake-sqlalchemy >= 1.6.1"
 
-      - name: Set file path as environment variable
-        run: echo "TEST_FILE_PATH=$GITHUB_WORKSPACE/github/tools_key.p8" >> $GITHUB_ENV
+      - name: Create private key file
+        run: |
+          echo "${{ secrets.PRIVATE_KEY_PATH }}" > /tmp/snowflake_key.p8
+          chmod 600 /tmp/snowflake_key.p8
 
       - name: Use the file path
         run: |
           echo "The file is located at: $TEST_FILE_PATH"
           cat $TEST_FILE_PATH
-      
-      # CREATE P8 KEY FILE
-      # - name: Create P8 file from secret
-      #   run: |
-      #     echo "${{ secrets.PRIVATE_KEY_PATH }}" | base64 -d > ${{ env.P8_KEY_PATH }}
-      #     chmod 600 ${{ env.P8_KEY_PATH }}
-      #   shell: bash
-        # Alternative if the key is stored as plain text:
-        # run: |
-        #   cat > ${{ env.P8_KEY_PATH }} << 'EOF'
-        #   ${{ secrets.SNOWFLAKE_PRIVATE_KEY }}
-        #   EOF
-        #   chmod 600 ${{ env.P8_KEY_PATH }}
+
+      - name: Set file path as environment variable
+        run: echo "TEST_FILE_PATH=/tmp/snowflake_key.p8" >> $GITHUB_ENV
       
       # BUILD SYNCER CONNECTION STRING
       - name: Set Snowflake connection string
