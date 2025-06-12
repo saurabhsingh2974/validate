@@ -43,7 +43,7 @@ jobs:
 
 
       - name: Set file path as environment variable
-        run: echo "TEST_FILE_PATH=${GITHUB_WORKSPACE}/validate/testing/tools_key.p8" >> $GITHUB_ENV
+        run: echo "TEST_FILE_PATH=validate/testing/tools_key.p8" >> $GITHUB_ENV
 
       - name: Use the file path
         run: |
