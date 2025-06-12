@@ -1,5 +1,4 @@
-name: Extract Metadata with CS Tools.
-
+name: Extract Metadata with CS Tools
 on:
   workflow_dispatch:
     inputs:
@@ -7,7 +6,6 @@ on:
         description: "The CS Tools version to target for a manual run."
         required: false
         type: string
-
   schedule:
     # Runs every day at 5:20 AM UTC
     - cron: "20 5 * * *"
@@ -15,7 +13,6 @@ on:
 jobs:
   extract_data_from_thoughtspot:
     runs-on: ubuntu-latest
-
     env:
       # CS TOOLS IS COMMAND LINE LIBRARY WRAPPING TS APIS
       # https://thoughtspot.github.io/cs_tools/
@@ -23,47 +20,52 @@ jobs:
       CS_TOOLS_THOUGHTSPOT__URL: ${{ secrets.THOUGHTSPOT_URL }}
       CS_TOOLS_THOUGHTSPOT__USERNAME: ${{ secrets.THOUGHTSPOT_USERNAME }}
       CS_TOOLS_THOUGHTSPOT__SECRET_KEY: ${{ secrets.THOUGHTSPOT_SECRET_KEY }}
-
-      # COMMON PARAMETERS FOR THE SNOWFLAKE SYNCER
-      # https://thoughtspot.github.io/cs_tools/syncer/snowflake/
-      DECLARATIVE_SYNCER_SYNTAX:
-        "\
-        account_name=${{ secrets.SNOWFLAKE_ACCOUNT }}\
-        &username=${{ secrets.SNOWFLAKE_USERNAME }}\
-        &secret=${{ secrets.SNOWFLAKE_PASSWORD }}\
-        &warehouse=${{ secrets.SNOWFLAKE_WAREHOUSE }}\
-        &role=${{ secrets.SNOWFLAKE_ROLE }}\
-        &database=${{ secrets.SNOWFLAKE_DATABASE }}\
-        &schema=${{ secrets.SNOWFLAKE_SCHEMA }}\
-        &authentication=basic\
-        &private_key_path=${{ secrets.private_key_path }}\
-        "
     
     steps:
-      # SETUP PYTHON.
+      # SETUP PYTHON
       - name: Set up Python
         uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'  # Specify Python version
       
-      # UPDATE PIP.
-      - name: Ensure pip is up to date.
+      # UPDATE PIP
+      - name: Ensure pip is up to date
         run: python -m pip install --upgrade pip
-
-      # INSTALL A SPECIFIC VERSION OF cs_tools.
-      - name: Install a pinned version of CS Tools
+      
+      # INSTALL A SPECIFIC VERSION OF cs_tools
+      - name: Install CS Tools
         run: python -m pip install "cs_tools[cli] @ https://github.com/thoughtspot/cs_tools/archive/${{ env.CS_TOOLS_VERSION }}.zip"
-
-      # ENSURE SYNCER DEPENDENCIES ARE INSTALLED.
-      #   found in: https://github.com/thoughtspot/cs_tools/blob/master/sync/<dialect>/MANIFEST.json
-      - name: Install a pinned version of CS Tools
+      
+      # ENSURE SYNCER DEPENDENCIES ARE INSTALLED
+      - name: Install Snowflake dependencies
         run: python -m pip install "snowflake-sqlalchemy >= 1.6.1"
-
-      # RUNS THE searchable metadata COMMAND.
-      # https://thoughtspot.github.io/cs_tools/tools/searchable
-      #
-      # THE CLI OPTION  --config ENV:  TELLS CS TOOLS TO PULL THE INFORMATION FROM ENVIRONMENT VARIABLES.
+      
+      # CREATE P8 KEY FILE
+      - name: Create P8 key file
+        run: |
+          echo "${{ secrets.PRIVATE_KEY_PATH }}" | base64 -d > AuthKey.p8
+          chmod 600 AuthKey.p8
+        # Alternative if the key is stored as plain text:
+        # run: |
+        #   cat > AuthKey.p8 << 'EOF'
+        #   ${{ secrets.SNOWFLAKE_PRIVATE_KEY }}
+        #   EOF
+        #   chmod 600 AuthKey.p8
+      
+      # BUILD SYNCER CONNECTION STRING
+      - name: Set Snowflake connection string
+        run: |
+          echo "DECLARATIVE_SYNCER_SYNTAX=account_name=${{ secrets.SNOWFLAKE_ACCOUNT }}&username=${{ secrets.SNOWFLAKE_USERNAME }}&secret=${{ secrets.SNOWFLAKE_PASSWORD }}&warehouse=${{ secrets.SNOWFLAKE_WAREHOUSE }}&role=${{ secrets.SNOWFLAKE_ROLE }}&database=${{ secrets.SNOWFLAKE_DATABASE }}&schema=${{ secrets.SNOWFLAKE_SCHEMA }}&authentication=key-pair&private_key_path=AuthKey.p8" >> $GITHUB_ENV
+      
+      # RUNS THE searchable metadata COMMAND
       - name: Refresh Metadata from ThoughtSpot
         run: >-
           cs_tools tools
           searchable metadata
           --syncer 'snowflake://${{ env.DECLARATIVE_SYNCER_SYNTAX }}&load_strategy=TRUNCATE'
           --config ENV:
+      
+      # CLEANUP
+      - name: Clean up sensitive files
+        if: always()
+        run: rm -f AuthKey.p8
