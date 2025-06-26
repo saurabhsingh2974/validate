@@ -46,7 +46,7 @@ jobs:
 
       - name: Decode PEM file
         run: |
-          echo "${{ secrets.PRIVATE_KEY_PATH }}" | base64 -d > TEST_FILE_PATH.p8
+          echo "${{ secrets.PRIVATE_KEY_PATH }}" > TEST_FILE_PATH.p8
 
       
       # BUILD SYNCER CONNECTION STRING
