@@ -44,18 +44,10 @@ jobs:
       - name: Install Snowflake dependencies
         run: python -m pip install "snowflake-sqlalchemy >= 1.6.1"
 
-      - name: Create private key file
+      - name: Decode PEM file
         run: |
-          echo "${{ secrets.PRIVATE_KEY_PATH }}" > /tmp/snowflake_key.p8
-          chmod 600 /tmp/snowflake_key.p8
+          echo "${{ secrets.PRIVATE_KEY_PATH }}" | base64 -d > TEST_FILE_PATH.p8
 
-      - name: Use the file path
-        run: |
-          echo "The file is located at: $TEST_FILE_PATH"
-          cat $TEST_FILE_PATH
-
-      - name: Set file path as environment variable
-        run: echo "TEST_FILE_PATH=/tmp/snowflake_key.p8" >> $GITHUB_ENV
       
       # BUILD SYNCER CONNECTION STRING
       - name: Set Snowflake connection string
