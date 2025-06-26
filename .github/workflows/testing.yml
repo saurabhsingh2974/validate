@@ -46,8 +46,7 @@ jobs:
         run: python -m pip install "snowflake-sqlalchemy >= 1.6.1"
 
       - name: Decode PEM file
-        run: |
-          echo "${{ secrets.PRIVATE_KEY_PATH }}" > $P8_KEY_PATH
+        run: echo "${{ secrets.PRIVATE_KEY_PATH }}" > $P8_KEY_PATH
 
       
       # BUILD SYNCER CONNECTION STRING
@@ -60,7 +59,7 @@ jobs:
         run: >-
           cs_tools tools
           searchable metadata
-          --syncer 'snowflake://${{ env.DECLARATIVE_SYNCER_SYNTAX }}&load_strategy=TRUNCATE'
+          --syncer "snowflake://${{ env.DECLARATIVE_SYNCER_SYNTAX }}&load_strategy=TRUNCATE"
           --config ENV:
       
       # CLEANUP
