@@ -59,7 +59,7 @@ jobs:
         run: >-
           cs_tools tools
           searchable metadata
-          --syncer "snowflake://${{ env.DECLARATIVE_SYNCER_SYNTAX }}&load_strategy=TRUNCATE"
+          --syncer "snowflake://${{ env.DECLARATIVE_SYNCER_SYNTAX }}&load_strategy=UPSERT"
           --config ENV:
       
       # CLEANUP
