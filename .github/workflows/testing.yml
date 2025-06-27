@@ -57,7 +57,7 @@ jobs:
       # RUNS THE searchable metadata COMMAND
       - name: Refresh Metadata from ThoughtSpot
         run: >-
-          cs_tools tools
+          cs_tools tools searchable
           bi-server --from-date 2025-06-02 --to-date 2025-06-08
           --syncer "snowflake://${{ env.DECLARATIVE_SYNCER_SYNTAX }}&load_strategy=UPSERT"
           --config ENV:
