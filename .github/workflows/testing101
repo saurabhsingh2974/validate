@@ -13,7 +13,7 @@ on:
     - cron: "20 5 * * *"
 
 jobs:
-  extract_data_from_thoughtspot:
+  extract_data_101:
     runs-on: ubuntu-latest
 
     env:
